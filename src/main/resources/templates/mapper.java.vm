@@ -1,0 +1,28 @@
+package ${package.Mapper};
+
+import ${package.Entity}.${entity};
+import ${superMapperClassPackage};
+import org.apache.ibatis.annotations.Param;
+import java.util.List;
+
+/**
+ * @author $!{author}
+ * Description $!{table.comment} 服务实现类
+ * Date $!{cfg.date}
+ * Time $!{cfg.time}
+ * Mail $!{cfg.email}
+ */
+#if(${kotlin})
+interface ${table.mapperName} : ${superMapperClass}<${entity}>
+#else
+public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+
+        // ===================== 基础SQL ====================
+        // ======== 在需要的时候可以使用，在多表联查或者批量插入的时候可以使用
+        // ======== 2020/9/26 16:07
+
+        List<${entity}> listByIds(@Param("ids") List<String> pIdList);
+
+        Boolean saveBatch(@Param("objs") List<${entity}> p${entity}List);
+}
+#end

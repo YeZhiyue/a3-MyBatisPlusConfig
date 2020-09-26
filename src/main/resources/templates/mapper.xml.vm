@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package.Mapper}.${table.mapperName}">
+
+#if(${enableCache})
+    <!-- 开启二级缓存 -->
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+#end
+#if(${baseResultMap})
+    <!-- 基本映射 -->
+    <resultMap id="${table.name}_mapper" type="${package.Entity}.${entity}">
+#foreach($field in ${table.fields})
+#if(${field.keyFlag})##生成主键排在第一位
+        <id column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+#foreach($field in ${table.commonFields})##生成公共字段
+        <result column="${field.name}" property="${field.propertyName}" />
+#end
+#foreach($field in ${table.fields})
+#if(!${field.keyFlag})##生成普通字段
+        <result column="${field.name}" property="${field.propertyName}" />
+#end
+#end
+    </resultMap>
+
+#end
+#if(${baseColumnList})
+    <!-- 通用字段视图 -->
+    <sql id="base_column">
+        ${prefix}id#foreach($field in ${table.commonFields})#if("$field.name" != "id"),${prefix}${field.name}#end#end
+    </sql>
+
+    #if(${baseColumnList})
+    <!-- 表主要字段视图 -->
+    <sql id="${table.name}_column">
+        ${prefix}id#foreach($field in ${table.fields}),${prefix}${field.name}#end
+    </sql>
+    #end
+    <!-- ================================ 新增SQL ================================ -->
+
+
+    <!-- ================================ 基础SQL ================================ -->
+    <select id="listByIds" resultType="${package.Entity}.${entity}">
+        select
+        <include refid="${table.name}_column"><property name="prefix" value="${name}."/></include>,<include refid="base_column"><property name="prefix" value="${name}."/></include>
+        from ${table.name} where id in (
+        <foreach collection="ids" item="item" separator=",">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <insert id="saveBatch"  useGeneratedKeys="true" keyProperty="id">>
+        INSERT INTO ${table.name}
+        (id#foreach($field in ${table.commonFields})#if("$field.name" != "id"),${field.name}#end#end#foreach($field in ${table.fields}),${field.name}#end)
+        VALUES <foreach collection="objs" item="item" separator=",">
+        (#{item.id}#foreach($field in ${table.commonFields})#if("$field.name" != "id"),#{item.${field.propertyName}}#end#end#foreach($field in ${table.fields}),#{item.${field.propertyName}}#end)
+        </foreach>
+    </insert>
+#end
+</mapper>

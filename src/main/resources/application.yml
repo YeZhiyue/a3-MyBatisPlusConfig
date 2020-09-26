@@ -1,0 +1,9 @@
+
+spring:
+  datasource:
+    password: root
+    username: root
+    url: jdbc:mysql://59.110.213.92:3307/park?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+server:
+  port: 8150
