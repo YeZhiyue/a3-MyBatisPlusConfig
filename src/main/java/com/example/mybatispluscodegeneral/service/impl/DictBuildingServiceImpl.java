@@ -1,16 +1,15 @@
 package com.example.mybatispluscodegeneral.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mybatispluscodegeneral.entity.DictBuilding;
 import com.example.mybatispluscodegeneral.mapper.DictBuildingMapper;
 import com.example.mybatispluscodegeneral.service.IDictBuildingService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.context.annotation.Primary;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +17,7 @@ import java.util.Objects;
  * @author YeZhiyue
  * Description 楼房类型字典表 服务实现类
  * Date 2020/09/30
- * Time 20:56
+ * Time 21:11
  * Mail 739153436@qq.com
  */
 @Primary
@@ -27,7 +26,7 @@ import java.util.Objects;
 public class DictBuildingServiceImpl extends ServiceImpl<DictBuildingMapper, DictBuilding> implements IDictBuildingService {
 
     @Resource
-    private DictBuildingMapper DictBuildingMapper;
+    private DictBuildingMapper DictBedMapper;
 
     // ===================== 管理员接口 ====================
     // ======== 通常需要添加权限验证
@@ -46,10 +45,10 @@ public class DictBuildingServiceImpl extends ServiceImpl<DictBuildingMapper, Dic
     @Override
     public Page<DictBuilding> adminPage(int pPageNum, int pPageSize, DictBuilding pDictBuilding) {
         return page(new Page<DictBuilding>(pPageNum, pPageSize), Wrappers.lambdaQuery(pDictBuilding)
-        .like(!StringUtils.isBlank(pDictBuilding.getCnName()), DictBuilding::getCnName, pDictBuilding.getCnName())
-.like(!StringUtils.isBlank(pDictBuilding.getEnName()), DictBuilding::getEnName, pDictBuilding.getEnName())
-.like(!StringUtils.isBlank(pDictBuilding.getDescription()), DictBuilding::getDescription, pDictBuilding.getDescription())
-.eq(!Objects.isNull(pDictBuilding.getId()), DictBuilding::getId, pDictBuilding.getId())
+        .like(!StringUtils.isBlank(pDictBed.getCnName()), DictBed::getCnName, pDictBed.getCnName())
+.like(!StringUtils.isBlank(pDictBed.getEnName()), DictBed::getEnName, pDictBed.getEnName())
+.like(!StringUtils.isBlank(pDictBed.getDescription()), DictBed::getDescription, pDictBed.getDescription())
+.eq(!Objects.isNull(pDictBed.getId()), DictBed::getId, pDictBed.getId())
 
         .orderByDesc(DictBuilding::getCreateTime)
         );

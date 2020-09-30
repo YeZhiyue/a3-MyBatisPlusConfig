@@ -18,7 +18,7 @@ import java.util.List;
  * @author YeZhiyue
  * Description 楼房类型字典表 服务实现类
  * Date 2020/09/30
- * Time 20:56
+ * Time 21:11
  * Mail 739153436@qq.com
  */
 @RestController
@@ -26,96 +26,96 @@ import java.util.List;
 public class DictBuildingController {
         
         @Resource
-        private IDictBuildingService iDictBuildingService;
+        private IDictBuildingService iDictBedService;
         
         // ===================== 管理员接口 ====================
         // ======== 通常需要添加权限验证
-        // ======== 2020/09/30 20:56
+        // ======== 2020/09/30 21:11
         
         /**
          * @description 新增
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/30 20:56
+         * @date 2020/09/30 21:11
          */
         @ApiOperation("新增")
         @PutMapping("/admin/insert")
         public ResultBean<Boolean> adminInsert(@RequestBody List<DictBuilding> pDictBuildingList) {
-                return ResultBean.restResult(iDictBuildingService.adminInsert(pDictBuildingList), ErrorCodeInfo.CREATED);
+                return ResultBean.restResult(iDictBedService.adminInsert(pDictBuildingList), ErrorCodeInfo.CREATED);
         }
 
         /**
          * @description 删除
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/30 20:56
+         * @date 2020/09/30 21:11
          */
         @ApiOperation("删除")
         @DeleteMapping("/admin/delete")
         public ResultBean<Boolean> adminDelete(@NotEmpty(message = "删除的id列表不能为空") @RequestBody List<String> pIdList) {
-                return ResultBean.restResult(iDictBuildingService.adminDelete(pIdList), ErrorCodeInfo.NO_CONTENT);
+                return ResultBean.restResult(iDictBedService.adminDelete(pIdList), ErrorCodeInfo.NO_CONTENT);
         }
 
         /**
          * @description 分页查询
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/30 20:56
+         * @date 2020/09/30 21:11
          */
         @ApiOperation("分页查询")
         @GetMapping("/admin/page")
         public ResultBean<Page<DictBuilding>> adminPage(@Min(value = -1 ,message = "页码过小") int pPageNum, int pPageSize, @RequestBody DictBuilding pDictBuilding) {
-                return ResultBean.restResult(iDictBuildingService.adminPage(pPageNum,pPageSize,pDictBuilding), ErrorCodeInfo.OK);
+                return ResultBean.restResult(iDictBedService.adminPage(pPageNum,pPageSize,pDictBuilding), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 更新
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/30 20:56
+         * @date 2020/09/30 21:11
          */
         @ApiOperation("更新")
         @PostMapping("/admin/update")
         public ResultBean<Boolean> adminUpdate(@Validated(value = DictBuilding.Update.class) @RequestBody List<DictBuilding> pDictBuildingList) {
-                return ResultBean.restResult(iDictBuildingService.adminUpdate(pDictBuildingList), ErrorCodeInfo.OK);
+                return ResultBean.restResult(iDictBedService.adminUpdate(pDictBuildingList), ErrorCodeInfo.OK);
         }
         
         // ===================== 用户接口 ====================
         // ======== 可以设置权限等级或者不设置权限
-        // ======== 2020/09/30 20:56
+        // ======== 2020/09/30 21:11
         
         
         // ===================== 预留接口 ====================
         // ======== 代码生成的时候添加的预留接口
-        // ======== 2020/09/30 20:56
+        // ======== 2020/09/30 21:11
 
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved1() {
-                return ResultBean.restResult(iDictBuildingService.reserved1(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(iDictBedService.reserved1(), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved2() {
-                return ResultBean.restResult(iDictBuildingService.reserved2(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(iDictBedService.reserved2(), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved3() {
-                return ResultBean.restResult(iDictBuildingService.reserved3(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(iDictBedService.reserved3(), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved4() {
-                return ResultBean.restResult(iDictBuildingService.reserved4(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(iDictBedService.reserved4(), ErrorCodeInfo.OK);
         }
 }
 

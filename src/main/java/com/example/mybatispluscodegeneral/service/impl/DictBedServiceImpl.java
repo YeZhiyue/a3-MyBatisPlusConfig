@@ -1,32 +1,32 @@
 package com.example.mybatispluscodegeneral.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mybatispluscodegeneral.entity.DictBed;
 import com.example.mybatispluscodegeneral.mapper.DictBedMapper;
 import com.example.mybatispluscodegeneral.service.IDictBedService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.context.annotation.Primary;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
-
 /**
  * @author YeZhiyue
  * Description 床类型字典表 服务实现类
- * Date 2020/09/26
- * Time 21:55
+ * Date 2020/09/30
+ * Time 21:11
  * Mail 739153436@qq.com
  */
 @Primary
 @Service
+@Transactional
 public class DictBedServiceImpl extends ServiceImpl<DictBedMapper, DictBed> implements IDictBedService {
 
     @Resource
-    private DictBedMapper dictBedMapper;
+    private DictBedMapper DictBedMapper;
 
     // ===================== 管理员接口 ====================
     // ======== 通常需要添加权限验证
@@ -44,11 +44,14 @@ public class DictBedServiceImpl extends ServiceImpl<DictBedMapper, DictBed> impl
 
     @Override
     public Page<DictBed> adminPage(int pPageNum, int pPageSize, DictBed pDictBed) {
-        list(Wrappers.lambdaQuery(pDictBed)
-                .eq(!Objects.isNull(pDictBed.getId()), DictBed::getId, pDictBed.getId())
-                .like(!StringUtils.isBlank(pDictBed.getCnName()), DictBed::getCnName, pDictBed.getCnName())
+        return page(new Page<DictBed>(pPageNum, pPageSize), Wrappers.lambdaQuery(pDictBed)
+        .like(!StringUtils.isBlank(pDictBed.getCnName()), DictBed::getCnName, pDictBed.getCnName())
+.like(!StringUtils.isBlank(pDictBed.getEnName()), DictBed::getEnName, pDictBed.getEnName())
+.like(!StringUtils.isBlank(pDictBed.getDescription()), DictBed::getDescription, pDictBed.getDescription())
+.eq(!Objects.isNull(pDictBed.getId()), DictBed::getId, pDictBed.getId())
+
+        .orderByDesc(DictBed::getCreateTime)
         );
-        return null;
     }
 
     @Override
