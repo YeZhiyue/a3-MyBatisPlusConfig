@@ -15,16 +15,17 @@ import java.util.Objects;
 /**
  * @author YeZhiyue
  * Description 楼房类型字典表 服务实现类
- * Date 2020/09/26
- * Time 23:57
+ * Date 2020/09/30
+ * Time 20:56
  * Mail 739153436@qq.com
  */
 @Primary
 @Service
+@Transactional
 public class DictBuildingServiceImpl extends ServiceImpl<DictBuildingMapper, DictBuilding> implements IDictBuildingService {
 
     @Resource
-    private DictBuildingMapper dictBuildingMapper;
+    private DictBuildingMapper DictBuildingMapper;
 
     // ===================== 管理员接口 ====================
     // ======== 通常需要添加权限验证
@@ -43,22 +44,11 @@ public class DictBuildingServiceImpl extends ServiceImpl<DictBuildingMapper, Dic
     @Override
     public Page<DictBuilding> adminPage(int pPageNum, int pPageSize, DictBuilding pDictBuilding) {
         return page(new Page<DictBuilding>(pPageNum, pPageSize), Wrappers.lambdaQuery(pDictBuilding)
-        .eq(!StringUtils.isBlank(pDictBuilding.getId()), DictBuilding::getId, pDictBuilding.getId())
-             ${propertyNameToType.get(0).getType()}
-             ${propertyNameToType.get(0).type}
-             ${field.getType()}
-                     .like(!Objects.isNull(pDictBuilding.get${field.propertyName}()), DictBuilding::get${field.propertyName}, pDictBuilding.get${field.propertyName}())
-                     .like(!StringUtils.isBlank(pDictBuilding.get${field.propertyName}()), DictBuilding::get${field.propertyName}, pDictBuilding.get${field.propertyName}())
-             ${propertyNameToType.get(0).getType()}
-             ${propertyNameToType.get(0).type}
-             ${field.getType()}
-                     .like(!Objects.isNull(pDictBuilding.get${field.propertyName}()), DictBuilding::get${field.propertyName}, pDictBuilding.get${field.propertyName}())
-                     .like(!StringUtils.isBlank(pDictBuilding.get${field.propertyName}()), DictBuilding::get${field.propertyName}, pDictBuilding.get${field.propertyName}())
-             ${propertyNameToType.get(0).getType()}
-             ${propertyNameToType.get(0).type}
-             ${field.getType()}
-                     .like(!Objects.isNull(pDictBuilding.get${field.propertyName}()), DictBuilding::get${field.propertyName}, pDictBuilding.get${field.propertyName}())
-                     .like(!StringUtils.isBlank(pDictBuilding.get${field.propertyName}()), DictBuilding::get${field.propertyName}, pDictBuilding.get${field.propertyName}())
+        .like(!StringUtils.isBlank(pDictBuilding.getCnName()), DictBuilding::getCnName, pDictBuilding.getCnName())
+.like(!StringUtils.isBlank(pDictBuilding.getEnName()), DictBuilding::getEnName, pDictBuilding.getEnName())
+.like(!StringUtils.isBlank(pDictBuilding.getDescription()), DictBuilding::getDescription, pDictBuilding.getDescription())
+.eq(!Objects.isNull(pDictBuilding.getId()), DictBuilding::getId, pDictBuilding.getId())
+
         .orderByDesc(DictBuilding::getCreateTime)
         );
     }

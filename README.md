@@ -6,8 +6,6 @@
 
 <font color=#999AAA > 如果你在使用SpringBoot框架进行Web开发的话，那么就可以使用MybatisPlus的代码生成器来进行代码的生成。这里会告诉你基本的代码生成器的配置，可以满足代码大多数人的代码生成需求。
 
-<hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
-
 ---
 
 # 基本环境搭建(SpringBoot+Maven)

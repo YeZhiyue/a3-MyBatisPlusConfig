@@ -1,21 +1,20 @@
 package com.example.mybatispluscodegeneral.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.mybatispluscodegeneral.entity.basic.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * @author YeZhiyue
  * Description 楼房类型字典表 服务实现类
- * Date 2020/09/26
- * Time 23:57
+ * Date 2020/09/30
+ * Time 20:56
  * Mail 739153436@qq.com
  */
 @Data
@@ -38,10 +37,8 @@ public class DictBuilding extends BaseModel<DictBuilding> {
     @TableField(value = "description")
     private String description;
 
-
     @Override
     protected Serializable pkVal() {
         return null;
     }
-
 }

@@ -58,7 +58,6 @@ public class BaseModel<T extends Model<?>> extends Model<T> {
     @TableLogic
     private Integer deleted;
 
-
     @ApiModelProperty(value = "额外信息", reference = "varchar(1000)")
     @TableField(value = "extra")
     private String extra;

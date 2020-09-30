@@ -46,7 +46,7 @@ public class ${table.controllerName} {
 #end
         
         @Resource
-        private ${table.serviceName} ${sServiceName};
+        private ${table.serviceName} ${cfg.sServiceName};
         
         // ===================== 管理员接口 ====================
         // ======== 通常需要添加权限验证
@@ -61,7 +61,7 @@ public class ${table.controllerName} {
         @ApiOperation("新增")
         @PutMapping("/admin/insert")
         public ResultBean<Boolean> adminInsert(@RequestBody List<${entity}> p${entity}List) {
-                return ResultBean.restResult(${sServiceName}.adminInsert(p${entity}List), ErrorCodeInfo.CREATED);
+                return ResultBean.restResult(${cfg.sServiceName}.adminInsert(p${entity}List), ErrorCodeInfo.CREATED);
         }
 
         /**
@@ -73,7 +73,7 @@ public class ${table.controllerName} {
         @ApiOperation("删除")
         @DeleteMapping("/admin/delete")
         public ResultBean<Boolean> adminDelete(@NotEmpty(message = "删除的id列表不能为空") @RequestBody List<String> pIdList) {
-                return ResultBean.restResult(${sServiceName}.adminDelete(pIdList), ErrorCodeInfo.NO_CONTENT);
+                return ResultBean.restResult(${cfg.sServiceName}.adminDelete(pIdList), ErrorCodeInfo.NO_CONTENT);
         }
 
         /**
@@ -85,7 +85,7 @@ public class ${table.controllerName} {
         @ApiOperation("分页查询")
         @GetMapping("/admin/page")
         public ResultBean<Page<${entity}>> adminPage(@Min(value = -1 ,message = "页码过小") int pPageNum, int pPageSize, @RequestBody ${entity} p${entity}) {
-                return ResultBean.restResult(${sServiceName}.adminPage(pPageNum,pPageSize,p${entity}), ErrorCodeInfo.OK);
+                return ResultBean.restResult(${cfg.sServiceName}.adminPage(pPageNum,pPageSize,p${entity}), ErrorCodeInfo.OK);
         }
 
         /**
@@ -97,7 +97,7 @@ public class ${table.controllerName} {
         @ApiOperation("更新")
         @PostMapping("/admin/update")
         public ResultBean<Boolean> adminUpdate(@Validated(value = ${entity}.Update.class) @RequestBody List<${entity}> p${entity}List) {
-                return ResultBean.restResult(${sServiceName}.adminUpdate(p${entity}List), ErrorCodeInfo.OK);
+                return ResultBean.restResult(${cfg.sServiceName}.adminUpdate(p${entity}List), ErrorCodeInfo.OK);
         }
         
         // ===================== 用户接口 ====================
@@ -114,28 +114,28 @@ public class ${table.controllerName} {
          * @description 预留接口
          */
         public ResultBean<Object> reserved1() {
-                return ResultBean.restResult(${sServiceName}.reserved1(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(${cfg.sServiceName}.reserved1(), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved2() {
-                return ResultBean.restResult(${sServiceName}.reserved2(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(${cfg.sServiceName}.reserved2(), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved3() {
-                return ResultBean.restResult(${sServiceName}.reserved3(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(${cfg.sServiceName}.reserved3(), ErrorCodeInfo.OK);
         }
 
         /**
          * @description 预留接口
          */
         public ResultBean<Object> reserved4() {
-                return ResultBean.restResult(${sServiceName}.reserved4(), ErrorCodeInfo.OK);
+                return ResultBean.restResult(${cfg.sServiceName}.reserved4(), ErrorCodeInfo.OK);
         }
 }
 

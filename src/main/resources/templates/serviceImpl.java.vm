@@ -21,6 +21,7 @@ import java.util.Objects;
  */
 @Primary
 @Service
+@Transactional
 #if(${kotlin})
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
@@ -29,7 +30,7 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
     @Resource
-    private ${entity}Mapper ${sEntityName}Mapper;
+    private ${table.mapperName} ${cfg.sMapperName};
 
     // ===================== 管理员接口 ====================
     // ======== 通常需要添加权限验证
@@ -48,18 +49,7 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     @Override
     public Page<${entity}> adminPage(int pPageNum, int pPageSize, ${entity} p${entity}) {
         return page(new Page<${entity}>(pPageNum, pPageSize), Wrappers.lambdaQuery(p${entity})
-        .eq(!StringUtils.isBlank(p${entity}.getId()), ${entity}::getId, p${entity}.getId())
-         #foreach($field in ${propertyNameToType})
-             ${propertyNameToType.get(0).getType()}
-             ${propertyNameToType.get(0).type}
-             ${field.getType()}
-             #if("$field.type" != "String")
-                     .like(!Objects.isNull(p${entity}.get${field.propertyName}()), ${entity}::get${field.propertyName}, p${entity}.get${field.propertyName}())
-             #end
-             #if("$field.type" != "Object")
-                     .like(!StringUtils.isBlank(p${entity}.get${field.propertyName}()), ${entity}::get${field.propertyName}, p${entity}.get${field.propertyName}())
-             #end
-         #end
+        ${cfg.page}
         .orderByDesc(${entity}::getCreateTime)
         );
     }

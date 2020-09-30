@@ -9,8 +9,8 @@ import java.util.List;
 /**
  * @author YeZhiyue
  * Description 楼房类型字典表 服务实现类
- * Date 2020/09/26
- * Time 23:57
+ * Date 2020/09/30
+ * Time 20:56
  * Mail 739153436@qq.com
  */
 public interface IDictBuildingService extends IService<DictBuilding> {

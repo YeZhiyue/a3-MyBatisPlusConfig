@@ -37,10 +37,8 @@ public class DictBed extends BaseModel<DictBed> {
     @TableField(value = "description")
     private String description;
 
-
     @Override
     protected Serializable pkVal() {
         return null;
     }
-
 }

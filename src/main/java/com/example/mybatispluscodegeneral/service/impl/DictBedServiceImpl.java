@@ -1,5 +1,7 @@
 package com.example.mybatispluscodegeneral.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.mybatispluscodegeneral.entity.DictBed;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
+
 /**
  * @author YeZhiyue
  * Description 床类型字典表 服务实现类
@@ -40,6 +44,10 @@ public class DictBedServiceImpl extends ServiceImpl<DictBedMapper, DictBed> impl
 
     @Override
     public Page<DictBed> adminPage(int pPageNum, int pPageSize, DictBed pDictBed) {
+        list(Wrappers.lambdaQuery(pDictBed)
+                .eq(!Objects.isNull(pDictBed.getId()), DictBed::getId, pDictBed.getId())
+                .like(!StringUtils.isBlank(pDictBed.getCnName()), DictBed::getCnName, pDictBed.getCnName())
+        );
         return null;
     }
 
