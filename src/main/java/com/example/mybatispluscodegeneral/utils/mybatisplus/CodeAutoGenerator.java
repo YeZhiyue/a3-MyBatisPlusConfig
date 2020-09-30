@@ -25,7 +25,7 @@ import java.util.*;
  * Time 12:42
  * Mail 739153436@qq.com
  */
-public class CodeAutoGenerator implements PackagePathConstant, TemplatePathConstant {
+public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig {
 
     private Map<String, Object> CUSTOM_PARAM_MAP = new HashMap<>();
 
@@ -49,6 +49,84 @@ public class CodeAutoGenerator implements PackagePathConstant, TemplatePathConst
                 // 自定义配置
                 .setCfg(injectionConfig())
                 .execute();
+    }
+
+
+    /**
+     * 自定义配置
+     */
+    private static InjectionConfig injectionConfig() {
+        return new InjectionConfig() {
+            @Override
+            public void initMap() {
+                Map<String, Object> map = new HashMap<>();
+
+                // ========================== 设置Page查询参数 ==========================
+                // ==========================2020/9/30 15:48==========================
+                TableInfo table = this.getConfig().getTableInfoList().get(0);
+                String className = table.getEntityName();
+                StringBuilder pageBuilder = new StringBuilder();
+                for (TableField field : table.getFields()) {
+                    // 字段名
+                    String fieldName = strFirstToUp(field.getPropertyName());
+                    // 对象类型
+                    IColumnType columnType = field.getColumnType();
+                    if ("Id".equals(fieldName)) {
+                        pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                    } else if ("String".equals(columnType.getType())) {
+                        pageBuilder.append(".like(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                    } else {
+                        pageBuilder.append(".like(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                    }
+                }
+
+                for (TableField field : table.getCommonFields()) {
+                    String fieldName = strFirstToUp(field.getPropertyName());
+                    IColumnType columnType = field.getColumnType();
+                    // 字段名
+                    String strFirstToUp = strFirstToUp(field.getPropertyName());
+                    if ("Id".equals(strFirstToUp)&&"String".equals(columnType.getType())) {
+                        pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + strFirstToUp + "()), " + className + "::get" + strFirstToUp + ", p" + className + ".get" + strFirstToUp + "())\n");
+                    }else if ("Id".equals(strFirstToUp)){
+                        pageBuilder.append(".eq(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                    }
+                }
+                /// END
+
+                /// 时间日期
+                String dateTime = new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date(System.currentTimeMillis()));
+                String[] split = dateTime.split(" ");
+                /// END
+
+                /// Service、Mapper字段
+                String serviceName = strFirstToLow(table.getServiceName());
+                String mapperName = strFirstToUp(table.getMapperName());
+                /// END
+
+                map.put("page", pageBuilder.toString());
+                map.put("sServiceName", serviceName);
+                map.put("sMapperName", mapperName);
+                map.put("email", EMAIL);
+                map.put("date", split[0]);
+                map.put("time", split[1]);
+                this.setMap(map);
+            }
+        }
+                // 判断是否创建文件
+                .setFileCreate(new IFileCreate() {
+                    @Override
+                    public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
+                        // 检查文件目录，不存在自动递归创建
+                        File file = new File(filePath);
+                        boolean exist = file.exists();
+                        if (!exist) {
+                            file.getParentFile().mkdirs();
+                        }
+                        return true;
+                    }
+                })
+                // 自定义输出文件
+                .setFileOutConfigList(fileOutConfigList());
     }
 
     /**
@@ -224,90 +302,13 @@ public class CodeAutoGenerator implements PackagePathConstant, TemplatePathConst
         String first = str.substring(0, 1);
         String after = str.substring(1); //substring(1),获取索引位置1后面所有剩余的字符串
         first = first.toUpperCase();
-        return first + after;//Adsjkj3k21afaad134f13241d134134s141faaafdf
+        return first + after;
     }
 
     public static String strFirstToLow(String str) {
         String first = str.substring(0, 1);
         String after = str.substring(1); //substring(1),获取索引位置1后面所有剩余的字符串
         first = first.toLowerCase();
-        return first + after;//Adsjkj3k21afaad134f13241d134134s141faaafdf
-    }
-
-    /**
-     * 自定义配置
-     */
-    private static InjectionConfig injectionConfig() {
-        return new InjectionConfig() {
-            @Override
-            public void initMap() {
-                Map<String, Object> map = new HashMap<>();
-
-                // ========================== 设置Page查询参数 ==========================
-                // ==========================2020/9/30 15:48==========================
-                TableInfo table = this.getConfig().getTableInfoList().get(0);
-                String className = table.getEntityName();
-                StringBuilder pageBuilder = new StringBuilder();
-                for (TableField field : table.getFields()) {
-                    // 字段名
-                    String fieldName = strFirstToUp(field.getPropertyName());
-                    // 对象类型
-                    IColumnType columnType = field.getColumnType();
-                    if ("Id".equals(fieldName)) {
-                        pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
-                    } else if ("String".equals(columnType.getType())) {
-                        pageBuilder.append(".like(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
-                    } else {
-                        pageBuilder.append(".like(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
-                    }
-                }
-
-                for (TableField field : table.getCommonFields()) {
-                    String fieldName = strFirstToUp(field.getPropertyName());
-                    IColumnType columnType = field.getColumnType();
-                    // 字段名
-                    String strFirstToUp = strFirstToUp(field.getPropertyName());
-                    if ("Id".equals(strFirstToUp)&&"String".equals(columnType.getType())) {
-                        pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + strFirstToUp + "()), " + className + "::get" + strFirstToUp + ", p" + className + ".get" + strFirstToUp + "())\n");
-                    }else if ("Id".equals(strFirstToUp)){
-                        pageBuilder.append(".eq(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
-                    }
-                }
-                /// END
-
-                /// 时间日期
-                String dateTime = new SimpleDateFormat("yyyy/MM/dd HH:mm").format(new Date(System.currentTimeMillis()));
-                String[] split = dateTime.split(" ");
-                /// END
-
-                /// Service、Mapper字段
-                String serviceName = strFirstToLow(table.getServiceName());
-                String mapperName = strFirstToUp(table.getMapperName());
-                /// END
-
-                map.put("page", pageBuilder.toString());
-                map.put("sServiceName", serviceName);
-                map.put("sMapperName", mapperName);
-                map.put("email", EMAIL);
-                map.put("date", split[0]);
-                map.put("time", split[1]);
-                this.setMap(map);
-            }
-        }
-                // 判断是否创建文件
-                .setFileCreate(new IFileCreate() {
-                    @Override
-                    public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                        // 检查文件目录，不存在自动递归创建
-                        File file = new File(filePath);
-                        boolean exist = file.exists();
-                        if (!exist) {
-                            file.getParentFile().mkdirs();
-                        }
-                        return true;
-                    }
-                })
-                // 自定义输出文件
-                .setFileOutConfigList(fileOutConfigList());
+        return first + after;
     }
 }

@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
  * Time 12:42
  * Mail 739153436@qq.com
  */
-public interface BasicParamConstant {
+public interface BasicParamConfig {
     /**
      * 作者
      */

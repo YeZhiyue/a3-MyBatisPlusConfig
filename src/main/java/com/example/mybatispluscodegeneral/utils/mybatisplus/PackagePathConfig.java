@@ -7,7 +7,7 @@ package com.example.mybatispluscodegeneral.utils.mybatisplus;
  * Time 12:42
  * Mail 739153436@qq.com
  */
-public interface PackagePathConstant  extends BasicParamConstant {
+public interface PackagePathConfig extends BasicParamConfig {
 
     /**
      * 父包名路径(文件输出路径,也是导包的路径)

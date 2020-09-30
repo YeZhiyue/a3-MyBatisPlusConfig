@@ -1,15 +1,14 @@
 package com.example.mybatispluscodegeneral.controller;
 
-import javax.validation.constraints.*;
-import org.springframework.web.bind.annotation.RestController;
-
-
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mybatispluscodegeneral.entity.DictBuilding;
 import com.example.mybatispluscodegeneral.service.IDictBuildingService;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.mybatispluscodegeneral.utils.resultbean.ErrorCodeInfo;
+import com.example.mybatispluscodegeneral.utils.resultbean.ResultBean;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
@@ -18,8 +17,8 @@ import java.util.List;
 /**
  * @author YeZhiyue
  * Description 楼房类型字典表 服务实现类
- * Date 2020/09/26
- * Time 23:57
+ * Date 2020/09/30
+ * Time 20:56
  * Mail 739153436@qq.com
  */
 @RestController
@@ -31,13 +30,13 @@ public class DictBuildingController {
         
         // ===================== 管理员接口 ====================
         // ======== 通常需要添加权限验证
-        // ======== 2020/09/26 23:57
+        // ======== 2020/09/30 20:56
         
         /**
          * @description 新增
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/26 23:57
+         * @date 2020/09/30 20:56
          */
         @ApiOperation("新增")
         @PutMapping("/admin/insert")
@@ -49,7 +48,7 @@ public class DictBuildingController {
          * @description 删除
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/26 23:57
+         * @date 2020/09/30 20:56
          */
         @ApiOperation("删除")
         @DeleteMapping("/admin/delete")
@@ -61,7 +60,7 @@ public class DictBuildingController {
          * @description 分页查询
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/26 23:57
+         * @date 2020/09/30 20:56
          */
         @ApiOperation("分页查询")
         @GetMapping("/admin/page")
@@ -73,7 +72,7 @@ public class DictBuildingController {
          * @description 更新
          * @author YeZhiyue
          * @email 739153436@qq.com
-         * @date 2020/09/26 23:57
+         * @date 2020/09/30 20:56
          */
         @ApiOperation("更新")
         @PostMapping("/admin/update")
@@ -83,12 +82,12 @@ public class DictBuildingController {
         
         // ===================== 用户接口 ====================
         // ======== 可以设置权限等级或者不设置权限
-        // ======== 2020/09/26 23:57
+        // ======== 2020/09/30 20:56
         
         
         // ===================== 预留接口 ====================
         // ======== 代码生成的时候添加的预留接口
-        // ======== 2020/09/26 23:57
+        // ======== 2020/09/30 20:56
 
 
         /**

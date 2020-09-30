@@ -7,7 +7,7 @@ package com.example.mybatispluscodegeneral.utils.mybatisplus;
  * Time 12:42
  * Mail 739153436@qq.com
  */
-public interface TemplatePathConstant  extends BasicParamConstant {
+public interface TemplatePathConfig extends BasicParamConfig {
 
     /**
      * entity输出模板
