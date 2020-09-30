@@ -9,7 +9,7 @@ import java.util.List;
  * @author YeZhiyue
  * Description 床类型字典表 服务实现类
  * Date 2020/09/30
- * Time 21:11
+ * Time 22:52
  * Mail 739153436@qq.com
  */
 public interface DictBedMapper extends BaseMapper<DictBed> {

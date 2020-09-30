@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.context.annotation.Primary;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
@@ -26,67 +27,71 @@ import java.util.Objects;
 #if(${kotlin})
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
-}
+        }
 #else
-public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+        public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}>implements ${table.serviceName} {
 
-    @Resource
-    private ${table.mapperName} ${cfg.sMapperName};
+        @Resource
+        private ${table.mapperName} ${cfg.sMapperName};
 
-    // ===================== 管理员接口 ====================
-    // ======== 通常需要添加权限验证
-    // ======== 2020/9/26 14:12
+        // ===================== 管理员接口 ====================
+        // ======== 通常需要添加权限验证
+        // ======== 2020/9/26 14:12
 
-    @Override
-    public Boolean adminInsert(List<${entity}> p${entity}List) {
-      return saveBatch(p${entity}List);
-    }
+        @Override
+        public Boolean adminInsert(List<${entity}>p${entity}List){
+        return saveBatch(p${entity}List);
+        }
 
-    @Override
-    public Boolean adminDelete(List<String> pIdList) {
+        @Override
+        public Boolean adminDelete(List<String>pIdList){
         return removeByIds(pIdList);
-    }
+        }
 
-    @Override
-    public Page<${entity}> adminPage(int pPageNum, int pPageSize, ${entity} p${entity}) {
-        return page(new Page<${entity}>(pPageNum, pPageSize), Wrappers.lambdaQuery(p${entity})
-        ${cfg.page}
+        @Override
+        public Page<${entity}>adminPage(int pPageNum,int pPageSize, ${entity} p${entity}){
+        return page(new Page(pPageNum,pPageSize),Wrappers.lambdaQuery(p${entity})
+    #foreach($item in ${cfg.page})
+        #if("${table.entityName}" == "${item.key}")
+            ${item.value}
+        #end
+    #end
         .orderByDesc(${entity}::getCreateTime)
         );
-    }
+        }
 
-    @Override
-    public Boolean adminUpdate(List<${entity}> p${entity}List) {
-         return updateBatchById(p${entity}List);
-    }
+        @Override
+        public Boolean adminUpdate(List<${entity}>p${entity}List){
+        return updateBatchById(p${entity}List);
+        }
 
-    // ===================== 用户接口 ====================
-    // ======== 可以设置权限等级或者不设置权限
-    // ======== 2020/9/26 14:12
+        // ===================== 用户接口 ====================
+        // ======== 可以设置权限等级或者不设置权限
+        // ======== 2020/9/26 14:12
 
 
-    // ===================== 预留接口 ====================
-    // ======== 代码生成的时候添加的预留接口
-    // ======== 2020/9/26 14:13
+        // ===================== 预留接口 ====================
+        // ======== 代码生成的时候添加的预留接口
+        // ======== 2020/9/26 14:13
 
-    @Override
-    public Object reserved1() {
+        @Override
+        public Object reserved1(){
         return null;
-    }
+        }
 
-    @Override
-    public Object reserved2() {
+        @Override
+        public Object reserved2(){
         return null;
-    }
+        }
 
-    @Override
-    public Object reserved3() {
-       return null;
-    }
+        @Override
+        public Object reserved3(){
+        return null;
+        }
 
-    @Override
-    public Object reserved4() {
-         return null;
-    }
-}
+        @Override
+        public Object reserved4(){
+        return null;
+        }
+        }
 #end

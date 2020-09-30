@@ -52,9 +52,13 @@ public interface BasicParamConfig {
      * 输出基础路径
      */
     String PARENT_PACKAGE_PATH = "/com/example/mybatispluscodegeneral";
-    String PRE_MODULE = "";
+    // 用于分布式多模块的项目(通常API和业务层的代码会在不同的模块下面)
+    // API 依赖模块前缀 "/api"
+    String API_PRE_MODULE = "";
+    // 业务层模块 "/service"
+    String SERVICE_PRE_MODULE = "";
     // 配置你包路径下的子模块(例如：com.example.mybatispluscodegeneral.test)
-    // 示例："test";
+    // 示例："/apiafter
     String AFTER_MODULE = "";
 
     /**

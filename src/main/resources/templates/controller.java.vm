@@ -11,7 +11,7 @@ import ${superControllerClassPackage};
 #end
 
 
-import ${package.Entity}.${entity};
+import ${package.Entity}.${table.entityName};
 import ${package.Service}.${table.serviceName};
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.ApiOperation;

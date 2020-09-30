@@ -16,14 +16,14 @@
             java.io.Serializable
         ],
         convert = true,
-        name = dict_building,
-        comment = 楼房类型字典表,
-        entityName = DictBuilding,
-        mapperName = DictBuildingMapper,
-        xmlName = DictBuildingMapper,
-        serviceName = IDictBuildingService,
-        serviceImplName = DictBuildingServiceImpl,
-        controllerName = DictBuildingController,
+        name = dict_bed,
+        comment = 床类型字典表,
+        entityName = DictBed,
+        mapperName = DictBedMapper,
+        xmlName = DictBedMapper,
+        serviceName = IDictBedService,
+        serviceImplName = DictBedServiceImpl,
+        controllerName = DictBedController,
         fields = [TableField(convert = true,
                 keyFlag = false,
                 keyIdentityFlag = false,
@@ -31,7 +31,7 @@
                 type = varchar(64),
                 propertyName = cnName,
                 columnType = STRING,
-                comment = 楼房类型名称（ 中文）,
+                comment = 床类型名称（ 中文）,
                 fill = null,
                 customMap = null),
             TableField(convert = true,
@@ -41,7 +41,7 @@
                 type = varchar(64),
                 propertyName = enName,
                 columnType = STRING,
-                comment = 楼房类型名称（ 英文）,
+                comment = 床类型名称（ 英文）,
                 fill = null,
                 customMap = null),
             TableField(convert = true,
@@ -160,30 +160,32 @@
         en_name,
         description),
     package = {
-        Entity = com.example.mybatispluscodegeneral.entity,
-        Mapper = com.example.mybatispluscodegeneral.mapper,
-        ModuleName = ,
-        Xml = com.example.mybatispluscodegeneral.resources.mapper,
-        ServiceImpl = com.example.mybatispluscodegeneral.service.impl,
-        Service = com.example.mybatispluscodegeneral.service,
-        Controller = com.example.mybatispluscodegeneral.controller
+        Entity = com.example.mybatispluscodegeneral.aaa.entity,
+        Mapper = com.example.mybatispluscodegeneral.aaa.mapper,
+        ModuleName = aaa,
+        Xml = com.example.mybatispluscodegeneral.aaa.resources.mapper,
+        ServiceImpl = com.example.mybatispluscodegeneral.aaa.service.impl,
+        Service = com.example.mybatispluscodegeneral.aaa.service,
+        Controller = com.example.mybatispluscodegeneral.aaa.controller
     },
     idType = null,
     cfg = {
         date = 2020 / 09 / 30,
-        page = .like(!StringUtils.isBlank(pDictBuilding.getCnName()),
-                    DictBuilding::getCnName,
-                    pDictBuilding.getCnName())
-                .like(!StringUtils.isBlank(pDictBuilding.getEnName()),
-                    DictBuilding::getEnName,
-                    pDictBuilding.getEnName())
-                .like(!StringUtils.isBlank(pDictBuilding.getDescription()),
-                    DictBuilding::getDescription,
-                    pDictBuilding.getDescription())
-                .eq(!Objects.isNull(pDictBuilding.getId()),
-                    DictBuilding::getId,
-                    pDictBuilding.getId()),
-        time = 21: 07,
+        page=[
+        CodeAutoGenerator.Page(key=DictBed, value=.like(!StringUtils.isBlank(pDictBed.getCnName()), DictBed::getCnName, pDictBed.getCnName())
+            .like(!StringUtils.isBlank(pDictBed.getEnName()), DictBed::getEnName, pDictBed.getEnName())
+            .like(!StringUtils.isBlank(pDictBed.getDescription()), DictBed::getDescription, pDictBed.getDescription())
+            .eq(!Objects.isNull(pDictBed.getId()), DictBed::getId, pDictBed.getId())
+            ), CodeAutoGenerator.Page(key=DictBuilding, value=.like(!StringUtils.isBlank(pDictBed.getCnName()), DictBed::getCnName, pDictBed.getCnName())
+            .like(!StringUtils.isBlank(pDictBed.getEnName()), DictBed::getEnName, pDictBed.getEnName())
+            .like(!StringUtils.isBlank(pDictBed.getDescription()), DictBed::getDescription, pDictBed.getDescription())
+            .eq(!Objects.isNull(pDictBed.getId()), DictBed::getId, pDictBed.getId())
+            .like(!StringUtils.isBlank(pDictBuilding.getCnName()), DictBuilding::getCnName, pDictBuilding.getCnName())
+            .like(!StringUtils.isBlank(pDictBuilding.getEnName()), DictBuilding::getEnName, pDictBuilding.getEnName())
+            .like(!StringUtils.isBlank(pDictBuilding.getDescription()), DictBuilding::getDescription, pDictBuilding.getDescription())
+            .eq(!Objects.isNull(pDictBuilding.getId()), DictBuilding::getId, pDictBuilding.getId())
+        )],
+        time = 21: 40,
         sMapperName = DictBuildingMapper,
         sServiceName = iDictBuildingService,
         email = 739153436 @qq.com
@@ -202,8 +204,8 @@
     entityBooleanColumnRemoveIsPrefix = false,
     logicDeleteFieldName = deleted,
     entityColumnConstant = false,
-    config = com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder @2b72cb8a,
+    config = com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder @3eb91815,
     enableCache = false,
-    entity = DictBuilding,
+    entity = DictBed,
     superEntityClass = BaseModel
 }

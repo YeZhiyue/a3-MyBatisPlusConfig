@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.IColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.VelocityTemplateEngine;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -26,9 +27,6 @@ import java.util.*;
  * Mail 739153436@qq.com
  */
 public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig {
-
-    private Map<String, Object> CUSTOM_PARAM_MAP = new HashMap<>();
-
 
     /**
      * 常用配置就直接到对应的常数接口去配置即可
@@ -51,7 +49,6 @@ public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig 
                 .execute();
     }
 
-
     /**
      * 自定义配置
      */
@@ -63,33 +60,43 @@ public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig 
 
                 // ========================== 设置Page查询参数 ==========================
                 // ==========================2020/9/30 15:48==========================
-                TableInfo table = this.getConfig().getTableInfoList().get(0);
-                String className = table.getEntityName();
-                StringBuilder pageBuilder = new StringBuilder();
-                for (TableField field : table.getFields()) {
-                    // 字段名
-                    String fieldName = strFirstToUp(field.getPropertyName());
-                    // 对象类型
-                    IColumnType columnType = field.getColumnType();
-                    if ("Id".equals(fieldName)) {
-                        pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
-                    } else if ("String".equals(columnType.getType())) {
-                        pageBuilder.append(".like(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
-                    } else {
-                        pageBuilder.append(".like(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                List<MyCodeConfig> myCodeConfigList = new ArrayList<>();
+                String serviceName = "";
+                String mapperName = "";
+                for (int i = 0; i < this.getConfig().getTableInfoList().size(); i++) {
+                    StringBuilder pageBuilder = new StringBuilder();
+                    TableInfo table = this.getConfig().getTableInfoList().get(i);
+                    String className = table.getEntityName();
+                    for (TableField field : table.getFields()) {
+                        // 字段名
+                        String fieldName = strFirstToUp(field.getPropertyName());
+                        // 对象类型
+                        IColumnType columnType = field.getColumnType();
+                        if ("Id".equals(fieldName)) {
+                            pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                        } else if ("String".equals(columnType.getType())) {
+                            pageBuilder.append(".like(!StringUtils.isBlank(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                        } else {
+                            pageBuilder.append(".like(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                        }
                     }
-                }
 
-                for (TableField field : table.getCommonFields()) {
-                    String fieldName = strFirstToUp(field.getPropertyName());
-                    IColumnType columnType = field.getColumnType();
-                    // 字段名
-                    String strFirstToUp = strFirstToUp(field.getPropertyName());
-                    if ("Id".equals(strFirstToUp)&&"String".equals(columnType.getType())) {
-                        pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + strFirstToUp + "()), " + className + "::get" + strFirstToUp + ", p" + className + ".get" + strFirstToUp + "())\n");
-                    }else if ("Id".equals(strFirstToUp)){
-                        pageBuilder.append(".eq(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                    for (TableField field : table.getCommonFields()) {
+                        String fieldName = strFirstToUp(field.getPropertyName());
+                        IColumnType columnType = field.getColumnType();
+                        // 字段名
+                        String strFirstToUp = strFirstToUp(field.getPropertyName());
+                        if ("Id".equals(strFirstToUp) && "String".equals(columnType.getType())) {
+                            pageBuilder.append(".eq(!StringUtils.isBlank(p" + className + ".get" + strFirstToUp + "()), " + className + "::get" + strFirstToUp + ", p" + className + ".get" + strFirstToUp + "())\n");
+                        } else if ("Id".equals(strFirstToUp)) {
+                            pageBuilder.append(".eq(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
+                        }
                     }
+                    myCodeConfigList.add(new MyCodeConfig(className, pageBuilder.toString()));
+                    /// Service、Mapper字段
+                    serviceName = strFirstToLow(table.getServiceName());
+                    mapperName = strFirstToUp(table.getMapperName());
+                    /// END
                 }
                 /// END
 
@@ -98,12 +105,7 @@ public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig 
                 String[] split = dateTime.split(" ");
                 /// END
 
-                /// Service、Mapper字段
-                String serviceName = strFirstToLow(table.getServiceName());
-                String mapperName = strFirstToUp(table.getMapperName());
-                /// END
-
-                map.put("page", pageBuilder.toString());
+                map.put("page", myCodeConfigList);
                 map.put("sServiceName", serviceName);
                 map.put("sMapperName", mapperName);
                 map.put("email", EMAIL);
@@ -272,8 +274,8 @@ public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig 
      */
     private static PackageConfig packageConfig() {
         return new PackageConfig()
-                // 父包名
-                .setModuleName(AFTER_MODULE)
+                // 模块名
+                .setModuleName(StringUtils.isEmpty(AFTER_MODULE)?"":AFTER_MODULE.substring(1))
                 .setParent(PARENT_PACKAGE_PATH.replace('/', '.').substring(1))
                 .setEntity(ENTITY_PATH.replace('/', '.').substring(1, ENTITY_PATH.length() - 1))
                 .setMapper(MAPPER_PATH.replace('/', '.').substring(1, MAPPER_PATH.length() - 1))
