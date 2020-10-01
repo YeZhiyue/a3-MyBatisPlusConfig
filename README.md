@@ -105,4 +105,19 @@ public enum GradeEnum {
 }
 ```
 
+## 乐观锁
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+```java
+@Bean
+public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+    return new OptimisticLockerInterceptor();
+}
+```
+
+```java
+@Version
+private Integer version;
+```
 
