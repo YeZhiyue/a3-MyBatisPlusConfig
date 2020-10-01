@@ -32,7 +32,8 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
         public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}>implements ${table.serviceName} {
 
         @Resource
-        private ${table.mapperName} ${cfg.sMapperName};
+        private ${table.mapperName} #foreach($item in ${cfg.page})#if(
+    "${table.entityName}" == "${item.key}")${item.mapperName}#end#end;
 
         // ===================== 管理员接口 ====================
         // ======== 通常需要添加权限验证

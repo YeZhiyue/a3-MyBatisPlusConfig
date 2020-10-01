@@ -27,7 +27,6 @@ import java.util.*;
  * Mail 739153436@qq.com
  */
 public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig {
-
     /**
      * 常用配置就直接到对应的常数接口去配置即可
      * <p>
@@ -92,10 +91,10 @@ public class CodeAutoGenerator implements PackagePathConfig, TemplatePathConfig 
                             pageBuilder.append(".eq(!Objects.isNull(p" + className + ".get" + fieldName + "()), " + className + "::get" + fieldName + ", p" + className + ".get" + fieldName + "())\n");
                         }
                     }
-                    myCodeConfigList.add(new MyCodeConfig(className, pageBuilder.toString()));
                     /// Service、Mapper字段
                     serviceName = strFirstToLow(table.getServiceName());
-                    mapperName = strFirstToUp(table.getMapperName());
+                    mapperName = strFirstToLow(table.getMapperName());
+                    myCodeConfigList.add(new MyCodeConfig(className, pageBuilder.toString(), serviceName, mapperName));
                     /// END
                 }
                 /// END

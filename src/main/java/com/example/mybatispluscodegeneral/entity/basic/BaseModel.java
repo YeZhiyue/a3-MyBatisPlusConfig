@@ -23,10 +23,10 @@ public class BaseModel<T extends Model<?>> extends Model<T> {
     public interface Insert { }
     public interface Update { }
 
-    @NotNull(groups = {Update.class},message = "更新的对象id不能为空")
-    @ApiModelProperty(value = "id", reference = "int(11)")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @NotNull(groups = {Update.class}, message = "更新的对象id不能为空")
+    @ApiModelProperty(value = "id", reference = "varchar(30)")
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private String id;
 
     @ApiModelProperty(value = "权重", reference = "int(11)")
     @TableField(value = "weight")
