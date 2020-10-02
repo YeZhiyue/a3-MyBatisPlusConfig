@@ -1,7 +1,9 @@
 package com.example.mybatispluscodegeneral.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.incrementer.H2KeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.SystemMetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -92,7 +95,7 @@ public class MybatisPlusConfig {
     }
 
     // 自定义主键生成规则
-    /*@Bean
+    @Bean
     public IdentifierGenerator IdentifierGeneratorConfig() {
         return new IdentifierGenerator() {
             @Override
@@ -107,5 +110,5 @@ public class MybatisPlusConfig {
                 return id;
             }
         };
-    }*/
+    }
 }
