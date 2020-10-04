@@ -28,7 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String name) {
         User user = iUserService.getOne(Wrappers.lambdaQuery(User.class)
-                .eq(User::getUserName, name)
+                .eq(User::getUserName, name), false
         );
         return new JwtUser(user);
     }

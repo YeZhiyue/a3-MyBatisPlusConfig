@@ -1,16 +1,18 @@
 package com.example.mybatispluscodegeneral.security.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.mybatispluscodegeneral.entity.basic.BaseModel;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.annotation.Version;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author YeZhiyue
@@ -44,6 +46,16 @@ public class User extends BaseModel<User> {
     @TableField(value = "enabled")
     private Boolean enabled;
 
+
+    private transient List<UserRole> userRoles;
+
+    public List<SimpleGrantedAuthority> getRoles() {
+//        List<Role> roles = userRoles.stream().map(UserRole::getRoleId).collect(Collectors.toList());
+//        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+//        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
+//        return authorities;
+        return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
+    }
 
     @Override
     protected Serializable pkVal() {

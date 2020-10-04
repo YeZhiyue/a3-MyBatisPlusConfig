@@ -9,7 +9,7 @@ spring:
   thymeleaf:
     cache: false
 server:
-  port: 8080
+  port: 8081
 
 mybatis-plus:
   # 支持统配符 * 或者 ; 分割

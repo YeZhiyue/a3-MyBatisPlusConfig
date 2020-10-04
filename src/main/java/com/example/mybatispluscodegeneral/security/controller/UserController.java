@@ -13,6 +13,7 @@ import com.example.mybatispluscodegeneral.utils.resultbean.ErrorCodeInfo;
 import com.example.mybatispluscodegeneral.utils.resultbean.ResultBean;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,9 +44,12 @@ public class UserController {
         @Resource
         private IRoleService iRoleService;
 
-// ===================== 管理员接口 ====================
-// ======== 通常需要添加权限验证
-// ======== 2020/10/04 14:37
+        @Resource
+        private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+        // ===================== 管理员接口 ====================
+        // ======== 通常需要添加权限验证
+        // ======== 2020/10/04 14:37
 
         /**
          * @description 新增
@@ -95,12 +99,13 @@ public class UserController {
                 return ResultBean.restResult(iUserService.adminUpdate(pUserList), ErrorCodeInfo.OK);
         }
 
-// ===================== 用户接口 ====================
-// ======== 可以设置权限等级或者不设置权限
-// ======== 2020/10/04 14:37
+        // ===================== 用户接口 ====================
+        // ======== 可以设置权限等级或者不设置权限
+        // ======== 2020/10/04 14:37
 
         @PostMapping("/sign-up")
         public ResultBean<Boolean> signUp(@RequestBody @Valid User user) {
+                user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
                 iUserService.save(user);
                 Role one = iRoleService.getOne(Wrappers.lambdaQuery(Role.class)
                         .eq(Role::getName, RoleType.USER.getName())
