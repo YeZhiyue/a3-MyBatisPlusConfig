@@ -1,10 +1,13 @@
 
+
 spring:
   datasource:
     password: root
     username: root
     url: jdbc:mysql://59.110.213.92:3307/park?characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
 server:
   port: 8080
 
@@ -21,4 +24,4 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
   type-enums-package: com.example.mybatispluscodegeneral.*
-
+# 禁用缓存

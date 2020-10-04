@@ -23,8 +23,7 @@ public interface BasicParamConfig {
      * 表名
      */
     String[] TABLES = {
-            "dict_bed",
-            "dict_building"
+            "info_user"
     };
 
     /**
