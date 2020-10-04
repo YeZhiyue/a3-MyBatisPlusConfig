@@ -1,10 +1,7 @@
 package com.example.mybatispluscodegeneral.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator;
 import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.baomidou.mybatisplus.extension.incrementer.H2KeyGenerator;
 import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
@@ -13,7 +10,6 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -87,7 +83,7 @@ public class MybatisPlusConfig {
         sqlExplainInterceptor.setSqlParserList(sqlParserList);
         return sqlExplainInterceptor;
     }
-
+/*
     // 设置主键生成策略 需要设置实体类的字段是 type=INPUT
     @Bean
     public H2KeyGenerator h2KeyGenerator() {
@@ -104,11 +100,9 @@ public class MybatisPlusConfig {
                 String bizKey = entity.getClass().getName();
                 log.info("bizKey:{}", bizKey);
                 MetaObject metaObject = SystemMetaObject.forObject(entity);
-                String name = (String) metaObject.getValue("version");
                 final long id = IdWorker.getId();
-                log.info("为{}生成主键值->:{}", name, id);
                 return id;
             }
         };
-    }
+    }*/
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mybatispluscodegeneral.security.mapper.UserMapper">
+<mapper namespace="com.example.mybatispluscodegeneral.security.mapper.UserRoleMapper">
 
     <!-- 基本映射 -->
-    <resultMap id="info_user_mapper" type="com.example.mybatispluscodegeneral.security.entity.User">
+    <resultMap id="relation_user_role_mapper" type="com.example.mybatispluscodegeneral.security.entity.UserRole">
         <result column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -14,10 +14,8 @@
         <result column="extra" property="extra"/>
         <result column="weight" property="weight"/>
         <result column="tenant_id" property="tenantId"/>
-        <result column="user_name" property="userName" />
-        <result column="full_name" property="fullName" />
-        <result column="password" property="password" />
-        <result column="enabled" property="enabled" />
+        <result column="user_id" property="userId"/>
+        <result column="role_id" property="roleId"/>
     </resultMap>
 
     <!-- 通用字段视图 -->
@@ -26,34 +24,35 @@
     </sql>
 
     <!-- 表主要字段视图 -->
-    <sql id="info_user_column">
-        ${prefix}id,${prefix}user_name,${prefix}full_name,${prefix}password,${prefix}enabled
+    <sql id="relation_user_role_column">
+        ${prefix}id,${prefix}user_id,${prefix}role_id
     </sql>
     <!-- ================================ 新增SQL ================================ -->
 
 
     <!-- ================================ 基础SQL ================================ -->
-    <select id="listByIds" resultType="com.example.mybatispluscodegeneral.security.entity.User">
+    <select id="listByIds" resultType="com.example.mybatispluscodegeneral.security.entity.UserRole">
         select
-        <include refid="info_user_column">
+        <include refid="relation_user_role_column">
             <property name="prefix" value="${name}."/>
         </include>
         ,
         <include refid="base_column">
             <property name="prefix" value="${name}."/>
         </include>
-        from info_user where id in (
+        from relation_user_role where id in (
         <foreach collection="ids" item="item" separator=",">
             #{item}
         </foreach>
         )
     </select>
 
-    <insert id="saveBatch"  useGeneratedKeys="true" keyProperty="id">>
-        INSERT INTO info_user
-        (id,create_time,update_time,create_by,update_by,version,deleted,extra,weight,tenant_id,user_name,full_name,password,enabled)
-        VALUES <foreach collection="objs" item="item" separator=",">
-        (#{item.id},#{item.createTime},#{item.updateTime},#{item.createBy},#{item.updateBy},#{item.version},#{item.deleted},#{item.extra},#{item.weight},#{item.tenantId},#{item.userName},#{item.fullName},#{item.password},#{item.enabled})
+    <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">>
+        INSERT INTO relation_user_role
+        (id,create_time,update_time,create_by,update_by,version,deleted,extra,weight,tenant_id,user_id,role_id)
+        VALUES
+        <foreach collection="objs" item="item" separator=",">
+            (#{item.id},#{item.createTime},#{item.updateTime},#{item.createBy},#{item.updateBy},#{item.version},#{item.deleted},#{item.extra},#{item.weight},#{item.tenantId},#{item.userId},#{item.roleId})
         </foreach>
     </insert>
 </mapper>

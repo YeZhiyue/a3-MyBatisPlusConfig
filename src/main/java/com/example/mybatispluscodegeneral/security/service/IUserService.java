@@ -1,16 +1,16 @@
-package com.example.mybatispluscodegeneral.service;
+package com.example.mybatispluscodegeneral.security.service;
 
-import com.example.mybatispluscodegeneral.entity.User;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.mybatispluscodegeneral.security.entity.User;
+
 import java.util.List;
 
 /**
  * @author YeZhiyue
  * Description 用户表 服务实现类
  * Date 2020/10/04
- * Time 09:48
+ * Time 14:37
  * Mail 739153436@qq.com
  */
 public interface IUserService extends IService<User> {
@@ -39,4 +39,5 @@ public interface IUserService extends IService<User> {
         Object reserved2();
         Object reserved3();
         Object reserved4();
+
 }

@@ -1,8 +1,8 @@
-package com.example.mybatispluscodegeneral.service.impl;
+package com.example.mybatispluscodegeneral.security.service.impl;
 
-import com.example.mybatispluscodegeneral.entity.User;
-import com.example.mybatispluscodegeneral.mapper.UserMapper;
-import com.example.mybatispluscodegeneral.service.IUserService;
+import com.example.mybatispluscodegeneral.security.entity.User;
+import com.example.mybatispluscodegeneral.security.mapper.UserMapper;
+import com.example.mybatispluscodegeneral.security.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -18,7 +18,7 @@ import java.util.Objects;
  * @author YeZhiyue
  * Description 用户表 服务实现类
  * Date 2020/10/04
- * Time 09:48
+ * Time 14:37
  * Mail 739153436@qq.com
  */
 @Primary

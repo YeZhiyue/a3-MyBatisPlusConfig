@@ -1,6 +1,5 @@
 package com.example.mybatispluscodegeneral.security.entity;
 
-import com.example.mybatispluscodegeneral.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

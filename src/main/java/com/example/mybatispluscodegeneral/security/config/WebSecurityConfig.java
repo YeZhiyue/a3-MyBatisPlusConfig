@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 禁用 CSRF
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(/*HttpMethod.POST, */"/**").permitAll()
+//                .antMatchers(/*HttpMethod.POST, */"/**").permitAll()
                 // 指定路径下的资源需要验证了的用户才能访问
                 .antMatchers("/api/**").authenticated()
                 .antMatchers(/*HttpMethod.DELETE,*/ "/api/**").hasRole("ADMIN")

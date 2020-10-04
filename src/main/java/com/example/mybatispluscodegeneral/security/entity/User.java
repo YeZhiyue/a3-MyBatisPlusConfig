@@ -1,4 +1,4 @@
-package com.example.mybatispluscodegeneral.entity;
+package com.example.mybatispluscodegeneral.security.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.example.mybatispluscodegeneral.entity.basic.BaseModel;
@@ -16,7 +16,7 @@ import lombok.experimental.Accessors;
  * @author YeZhiyue
  * Description 用户表 服务实现类
  * Date 2020/10/04
- * Time 09:48
+ * Time 14:37
  * Mail 739153436@qq.com
  */
 @Data

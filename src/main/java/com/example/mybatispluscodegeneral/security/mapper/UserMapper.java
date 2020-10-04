@@ -1,6 +1,6 @@
-package com.example.mybatispluscodegeneral.mapper;
+package com.example.mybatispluscodegeneral.security.mapper;
 
-import com.example.mybatispluscodegeneral.entity.User;
+import com.example.mybatispluscodegeneral.security.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author YeZhiyue
  * Description 用户表 服务实现类
  * Date 2020/10/04
- * Time 09:48
+ * Time 14:37
  * Mail 739153436@qq.com
  */
 public interface UserMapper extends BaseMapper<User> {

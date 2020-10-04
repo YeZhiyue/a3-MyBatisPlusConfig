@@ -18,12 +18,12 @@ public interface BasicParamConfig {
     /**
      * 生成的实体类忽略表前缀: 不需要则置空
      */
-    String ENTITY_IGNORE_PREFIX = "info_";
+    String ENTITY_IGNORE_PREFIX = "relation";
     /**
      * 表名
      */
     String[] TABLES = {
-            "info_user"
+            "relation_user_role"
     };
 
     /**
@@ -58,7 +58,7 @@ public interface BasicParamConfig {
     String SERVICE_PRE_MODULE = "";
     // 配置你包路径下的子模块(例如：com.example.mybatispluscodegeneral.test)
     // 示例："/apiafter
-    String AFTER_MODULE = "";
+    String AFTER_MODULE = "/security";
 
     /**
      * 数据库
