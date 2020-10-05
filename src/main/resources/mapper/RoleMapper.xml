@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mybatispluscodegeneral.security.mapper.RoleMapper">
+<mapper namespace="com.example.springsecuritydemo.mapper.RoleMapper">
 
     <!-- 基本映射 -->
-    <resultMap id="dict_role_mapper" type="com.example.mybatispluscodegeneral.security.entity.Role">
+    <resultMap id="dict_role_mapper" type="com.example.springsecuritydemo.entity.Role">
         <result column="id" property="id"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -31,14 +31,14 @@
 
 
     <!-- ================================ 基础SQL ================================ -->
-    <select id="listByIds" resultType="com.example.mybatispluscodegeneral.security.entity.Role">
+    <select id="listByIds" resultType="com.example.springsecuritydemo.entity.Role">
         select
         <include refid="dict_role_column">
-            <property name="prefix" value="${name}."/>
+            <property name="prefix" value="${table.name}."/>
         </include>
         ,
         <include refid="base_column">
-            <property name="prefix" value="${name}."/>
+            <property name="prefix" value="${table.name}."/>
         </include>
         from dict_role where id in (
         <foreach collection="ids" item="item" separator=",">

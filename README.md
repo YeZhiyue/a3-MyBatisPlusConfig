@@ -1,130 +1,255 @@
-<font color=#ca0c16 size=8> SpringSecurity
+<font color=#ca0c16 size=8> 个人Demo
 
 <a id="_top"></a>
 
 @[TOC](文章目录)
 
-# 前言
+---
 
-<font color=#999AAA > 官方文档学习
+# 参考和项目地址
 
-[https://docs.spring.io/spring-security/site/docs/5.4.0/reference/html5/#servlet-hello](https://docs.spring.io/spring-security/site/docs/5.4.0/reference/html5/#servlet-hello)
+[https://github.com/Snailclimb/spring-security-jwt-guide 文档地址](https://github.com/Snailclimb/spring-security-jwt-guide)
+
+[https://docs.spring.io/spring-security/site/docs/5.4.0/reference/html5/#jc SpringSecurity官方文档](https://docs.spring.io/spring-security/site/docs/5.4.0/reference/html5/#jc)
+
+个人demo
+
+```java
+
+```
 
 ---
 
-# 第一节 HelloWorld
-
-## 依赖
-
-*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+# 依赖导入
 
 ```java
+<!-- ======================== SpringSecurity =========================-->
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-security</artifactId>
 </dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-api</artifactId>
+    <version>0.10.7</version>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-impl</artifactId>
+    <version>0.10.7</version>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>io.jsonwebtoken</groupId>
+    <artifactId>jjwt-jackson</artifactId>
+    <version>0.10.7</version>
+    <scope>runtime</scope>
+</dependency>
+<!-- ======================== END =========================-->
 ```
-
-## SpringBoot中对于SpringSecurity的自动装箱配置
-
-*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
-
-**1. 自动注册过滤器链 springSecurityFilterChain**
-
-- 这些过滤器用于对每一个访问我们服务的请求进行安全处理，如用户名和密码校验。
-
-启动我们的SpringSecurity项目的时候我们可以看到控制台的打印
-
-![](http://qhif39llc.hn-bkt.clouddn.com/picgo/20201004101344.png)
-
-```java
-2020-10-04 10:03:29.375  INFO 9632 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request,
-[org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5f7237ac,
-org.springframework.security.web.context.SecurityContextPersistenceFilter@3656cd5d,
-org.springframework.security.web.header.HeaderWriterFilter@1ba3e9b5,
-org.springframework.security.web.csrf.CsrfFilter@109af914,
-org.springframework.security.web.authentication.logout.LogoutFilter@6e43540b,
-org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@a25792a,
-org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@450c4a3c,
-org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@6a8a277,
-org.springframework.security.web.authentication.www.BasicAuthenticationFilter@a29c8b6,
-org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3563491d,
-org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4e2947ab,
-org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5a4b8296,
-org.springframework.security.web.session.SessionManagementFilter@1ddcad86,
-org.springframework.security.web.access.ExceptionTranslationFilter@8efd8ea,
-org.springframework.security.web.access.intercept.FilterSecurityInterceptor@21eb0f07]
-```
-
-**2. 创建一个UserDetailsService组件，名称是user，密码会自动生成并且在控制台打印**
-
-控制台打印自动生成的密码
-
-```java
-2020-10-04 10:03:29.291  INFO 9632 --- [  restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
-Using generated security password: d1083c8a-00b5-4bda-99b6-99434ed2ffc4
-```
-
-通过这个密码我们可以登录我们的服务
-
-http://qhif39llc.hn-bkt.clouddn.com/picgo/20201004101915.png
-
-### 注入SpringSecurity之后SpringBoot为你自动配置的安全总结
-
-- 每一个用户都需要进行权限校验时候才可以进行服务资源的获取
-- SpringSecurity会自带一个默认的登录界面给你
-- SpringSecurity自带了BCrypt的加密服务
 
 ---
 
-# SpringSecurity的高级体系结构
+# 关键权限文件
 
-## 过滤器链条
+## public class CorsConfiguration implements WebMvcConfigurer
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+文件配置了跨域请求会返回token
+
+```java
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            //暴露header中的其他属性给客户端应用程序
+            //如果不设置这个属性前端无法通过response header获取到Authorization也就是token
+            .exposedHeaders("Authorization")
+            .allowCredentials(true)
+            .allowedMethods("GET", "POST", "DELETE", "PUT")
+            .maxAge(3600);
+}
+```
+
+## public class SecurityConfig extends WebSecurityConfigurerAdapter
 
 *<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
 
-![](http://qhif39llc.hn-bkt.clouddn.com/picgo/20201004111622.png)
+文件主要配置了那些权限需要进行权限校验，权限校验的过滤器
 
-## ...许多的过滤器构成了复杂的校验体系结构
+## public class JwtUser implements UserDetails
 
 *<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+存放登录用户的信息，其中有着这个用户的权限信息
+
+## public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+用户登录时的权限查询，对这个用户授权，生成token
+
+## public class JwtAuthorizationFilter extends BasicAuthenticationFilter
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+对前端传递过来的token进行校验，看这个token中到底有哪些权限
+
+## public class JwtTokenUtils && public class CurrentUserUtils 
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+安全框架工具类，用于token的编解码。另外一个可以获取当前的登录用户
+
+## public class UserDetailsServiceImpl implements UserDetailsService
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+用于获取当前准备登录的用户的信息获取，准备进行权限校验
 
 ---
 
-# Spring Security提供的身份验证的支持
+# 校验流程
 
-**身份验证组件**
-
-- SecurityContextHolder 存储已经通过权限校验的用户的信息 
-- SecurityContext 存储已经通过权限校验的当前用户的信息 
-- Authentication 用户凭据信息
-
-## SecurityContextHolder
+## 登录校验流程
 
 *<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
 
-![](http://qhif39llc.hn-bkt.clouddn.com/picgo/20201004115249.png)
+**1. 请求**
 
-### 设置一个用户
-
-```java
-SecurityContext context = SecurityContextHolder.createEmptyContext(); 
-Authentication authentication =
-    new TestingAuthenticationToken("username", "password", "ROLE_USER"); 
-context.setAuthentication(authentication);
-
-SecurityContextHolder.setContext(context); 
-```
-
-### 获取当前用户
+{{url}}auth/login
 
 ```java
-SecurityContext context = SecurityContextHolder.getContext();
-Authentication authentication = context.getAuthentication();
-String username = authentication.getName();
-Object principal = authentication.getPrincipal();
-Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+{
+    "username": "张三",
+    "password": "1234",
+    "rememberMe": true
+}
 ```
+
+**2. 配置**
+
+配置请求路径
+
+```java
+public class SecurityConstants{
+    public static final String AUTH_LOGIN_URL = "/auth/login";
+    ...
+}
+```
+
+过滤器对指定路径进行拦截
+
+```java
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+        // 设置URL，以确定是否需要身份验证(就是需要从数据库获取用户权限的地址)
+        super.setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request,
+                                                HttpServletResponse response) throws AuthenticationException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // 获取登录的信息
+            // 以LoginRequest类为模板来读取Json数据
+            LoginRequest loginRequest = objectMapper.readValue(request.getInputStream(), LoginRequest.class);
+            rememberMe.set(loginRequest.getRememberMe());
+            // 这部分和attemptAuthentication方法中的源码是一样的，
+            // 只不过由于这个方法源码的是把用户名和密码这些参数的名字是死的，所以我们重写了一下
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsername(), loginRequest.getPassword());
+            // 这个会跳转到 UserDetailsService 的 loadUserByUsername() 方法中读取用户信息
+            return authenticationManager.authenticate(authentication);
+        } catch (IOException | AuthenticationException e) {
+            if (e instanceof AuthenticationException) {
+                throw new LoginFailedException("登录失败！请检查用户名和密码。");
+            }
+            throw new LoginFailedException(e.getMessage());
+        }
+    }
+}
+```
+
+读取用户信息
+
+```java
+public class UserDetailsServiceImpl implements UserDetailsService {
+
+    @Resource
+    private IUserService iUserService;
+
+    public UserDetailsServiceImpl(IUserService iUserService) {
+        this.iUserService = iUserService;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) {
+        User user = iUserService.getUserWithRoles(name);
+        return new JwtUser(user);
+    }
+}
+```
+
+## 其他访问的权限校验
+
+*<a href="#_top" rel="nofollow" target="_self">返回目录</a>*
+
+```java
+@Slf4j
+public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
+
+    private final UserDetailsServiceImpl userDetailsService;
+    private static final Logger logger = Logger.getLogger(JwtAuthorizationFilter.class.getName());
+
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserDetailsServiceImpl userDetailsService) {
+        super(authenticationManager);
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain chain) throws IOException, ServletException {
+
+        String token = request.getHeader(SecurityConstants.TOKEN_HEADER);
+        if (token == null || !token.startsWith(SecurityConstants.TOKEN_PREFIX)) {
+            SecurityContextHolder.clearContext();
+        } else {
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        chain.doFilter(request, response);
+    }
+
+    /**
+     * 获取用户认证信息 Authentication
+     */
+    private UsernamePasswordAuthenticationToken getAuthentication(String authorization) {
+        log.info("get authentication");
+        String token = authorization.replace(SecurityConstants.TOKEN_PREFIX, "");
+        try {
+            String username = JwtTokenUtils.getUsernameByToken(token);
+            logger.info("checking username:" + username);
+            if (!StringUtils.isEmpty(username)) {
+                // 这里我们是又从数据库拿了一遍,避免用户的角色信息有变
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
+                return userDetails.isEnabled() ? usernamePasswordAuthenticationToken : null;
+            }
+        } catch (UserNameNotFoundException | SignatureException | ExpiredJwtException | MalformedJwtException | IllegalArgumentException exception) {
+            logger.warning("Request to parse JWT with invalid signature . Detail : " + exception.getMessage());
+        }
+        return null;
+    }
+}
+```
+
 
 
 

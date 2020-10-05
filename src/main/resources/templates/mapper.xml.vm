@@ -34,7 +34,7 @@
 
     #if(${baseColumnList})
     <!-- 表主要字段视图 -->
-    <sql id="${table.name}_column">
+        <sql id="${table.name}_column">
         ${prefix}id#foreach($field in ${table.fields}),${prefix}${field.name}#end
     </sql>
     #end
@@ -44,7 +44,13 @@
     <!-- ================================ 基础SQL ================================ -->
     <select id="listByIds" resultType="${package.Entity}.${entity}">
         select
-        <include refid="${table.name}_column"><property name="prefix" value="${name}."/></include>,<include refid="base_column"><property name="prefix" value="${name}."/></include>
+        <include refid="${table.name}_column">
+            <property name="prefix" value="${table.name}."/>
+        </include>
+        ,
+        <include refid="base_column">
+            <property name="prefix" value="${table.name}."/>
+        </include>
         from ${table.name} where id in (
         <foreach collection="ids" item="item" separator=",">
             #{item}
@@ -52,9 +58,10 @@
         )
     </select>
 
-    <insert id="saveBatch"  useGeneratedKeys="true" keyProperty="id">>
+    <insert id="saveBatch" useGeneratedKeys="true" keyProperty="id">>
         INSERT INTO ${table.name}
-        (id#foreach($field in ${table.commonFields})#if("$field.name" != "id"),${field.name}#end#end#foreach($field in ${table.fields}),${field.name}#end)
+        (id#foreach($field in ${table.commonFields})#if("$field.name" != "id")
+            ,${field.name}#end#end#foreach($field in ${table.fields}),${field.name}#end)
         VALUES <foreach collection="objs" item="item" separator=",">
         (#{item.id}#foreach($field in ${table.commonFields})#if("$field.name" != "id"),#{item.${field.propertyName}}#end#end#foreach($field in ${table.fields}),#{item.${field.propertyName}}#end)
         </foreach>

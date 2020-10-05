@@ -9,7 +9,7 @@
     superServiceClass = IService,
     superServiceImplClass = ServiceImpl,
     table = TableInfo(importPackages = [com.baomidou.mybatisplus.annotation.TableName,
-            com.example.mybatispluscodegeneral.entity.basic.BaseModel,
+            com.example.springsecuritydemo.entity.basic.BaseModel,
             com.baomidou.mybatisplus.extension.activerecord.Model,
             com.baomidou.mybatisplus.annotation.Version,
             com.baomidou.mybatisplus.annotation.TableField,
@@ -160,13 +160,13 @@
         en_name,
         description),
     package = {
-        Entity = com.example.mybatispluscodegeneral.aaa.entity,
-        Mapper = com.example.mybatispluscodegeneral.aaa.mapper,
+        Entity = com.example.springsecuritydemo.aaa.entity,
+        Mapper = com.example.springsecuritydemo.aaa.mapper,
         ModuleName = aaa,
-        Xml = com.example.mybatispluscodegeneral.aaa.resources.mapper,
-        ServiceImpl = com.example.mybatispluscodegeneral.aaa.service.impl,
-        Service = com.example.mybatispluscodegeneral.aaa.service,
-        Controller = com.example.mybatispluscodegeneral.aaa.controller
+        Xml = com.example.springsecuritydemo.aaa.resources.mapper,
+        ServiceImpl = com.example.springsecuritydemo.aaa.service.impl,
+        Service = com.example.springsecuritydemo.aaa.service,
+        Controller = com.example.springsecuritydemo.aaa.controller
     },
     idType = null,
     cfg = {
